@@ -63,6 +63,6 @@ func (m metalloid) String() string {
 func main() {
 	fmt.Print(headers())
 	for _, m := range metalloids {
-		fmt.Printf(m, "\n")
+		fmt.Println(m,"\n")
 	}
 }
