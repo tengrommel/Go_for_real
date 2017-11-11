@@ -27,10 +27,23 @@ func main() {
 	pid := cmd.Process.Pid
 	var regs syscall.PtraceRegs
 
-	err = syscall.PtraceGetRegs(pid, &regs)
-	if err!=nil{
-		panic(err)
-	}
+	for {
+		err = syscall.PtraceGetRegs(pid, &regs)
+		if err != nil {
+			panic(err)
+		}
 
-	fmt.Printf("%#v\n", regs)
+		fmt.Printf("%#v\n", regs)
+
+		err = syscall.PtraceSyscall(pid, 0)
+
+		if err != nil {
+			panic(err)
+		}
+
+		_, err = syscall.Wait4(pid, nil, 0, nil)
+		if err != nil {
+			panic(err)
+		}
+	}
 }
