@@ -5,7 +5,6 @@ import (
 	"os"
 	"os/exec"
 	"syscall"
-	"time"
 )
 
 func main() {
@@ -24,5 +23,14 @@ func main() {
 	if err!=nil {
 		fmt.Printf("Wait returned: %v\n", err)
 	}
-	time.Sleep(time.Second * 3)
+
+	pid := cmd.Process.Pid
+	var regs syscall.PtraceRegs
+
+	err = syscall.PtraceGetRegs(pid, &regs)
+	if err!=nil{
+		panic(err)
+	}
+
+	fmt.Printf("%#v\n", regs)
 }
