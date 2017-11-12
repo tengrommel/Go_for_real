@@ -1,8 +1,8 @@
 package main
 
 import (
-	"strings"
 	"fmt"
+	"strings"
 )
 
 func main() {
@@ -14,18 +14,21 @@ func main() {
 
 	histogram := make(map[string]int)
 
-	words := words(data)
-	for word:=range words{
+	words := words(data) // returns handle to channel
+	for word := range words {
 		histogram[word]++
 	}
 
-	for k,v := range words {
+	for k, v := range histogram {
 		fmt.Printf("%s\t(%d)\n", k, v)
 	}
 }
 
+// generator function that produces data
 func words(data []string) <-chan string {
-	out:=make(chan string)
+	out := make(chan string)
+
+	// splits line and emit words
 	go func() {
 		defer close(out) // closes channel upon fn return
 		for _, line := range data {
