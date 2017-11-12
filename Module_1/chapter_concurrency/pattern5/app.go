@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -13,14 +14,24 @@ func main() {
 	}
 
 	histogram := make(map[string]int)
+	done := make(chan struct{})
 
-	words := words(data) // returns handle to channel
-	for word := range words {
-		histogram[word]++
-	}
+	go func() {
+		defer close(done)
+		words := words(data) // returns handle to channel
+		for word := range words {
+			histogram[word]++
+		}
+		for k,v := range histogram {
+			fmt.Printf("%s\t(%d)\n", k, v)
+		}
+	}()
 
-	for k, v := range histogram {
-		fmt.Printf("%s\t(%d)\n", k, v)
+	select {
+	case <-done:
+		fmt.Println("Done counting words!!!")
+	case <-time.After(200 * time.Microsecond):
+		fmt.Println("Sorry, took too long to count.")
 	}
 }
 
@@ -39,5 +50,6 @@ func words(data []string) <-chan string {
 			}
 		}
 	}()
+
 	return out
 }

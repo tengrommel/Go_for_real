@@ -13,8 +13,9 @@ func main() {
 	}
 
 	histogram := make(map[string]int)
+	stopCh := make(chan struct{})
 
-	words := words(data) // returns handle to channel
+	words := words(stopCh, data) // returns handle to channel
 	for word := range words {
 		histogram[word]++
 	}
@@ -25,7 +26,7 @@ func main() {
 }
 
 // generator function that produces data
-func words(data []string) <-chan string {
+func words(stopCh chan struct{}, data []string) <-chan string {
 	out := make(chan string)
 
 	// splits line and emit words
@@ -35,7 +36,11 @@ func words(data []string) <-chan string {
 			words := strings.Split(line, " ")
 			for _, word := range words {
 				word = strings.ToLower(word)
-				out <- word
+				select {
+				case out <- word:
+				case <-stopCh:
+					return
+				}
 			}
 		}
 	}()
