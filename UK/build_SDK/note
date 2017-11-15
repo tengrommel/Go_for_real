@@ -1,0 +1,28 @@
+Lessons from the Dropbox Go SDK
+
+1: Use a Code Generator
+
+Language-agonstic API definition (DSL, JSON, YAML, etc), Language-specific generators
+Dropbox Stone (spec + generators)
+
+2: Avoid Surprises
+
+Principle of Least Surprise
+No external dependencies
+    Only standard library imports
+No vendored dependencies
+What you need is what you get
+    Scoped sub-packages for larger APIs
+    Make it `go get` friendly
+
+3: Make Configuration Simple
+Don't use cmdline flags
+    Stdlib limitations
+Environment variables
+    OK, but beware pitfalls
+Use a config struct
+    Same pattern in AWS SDK
+Persistence outside SDK
+    Let applications choose
+    dbxcli load/stores json
+    configs
