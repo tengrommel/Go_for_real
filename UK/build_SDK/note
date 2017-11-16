@@ -26,3 +26,47 @@ Persistence outside SDK
     Let applications choose
     dbxcli load/stores json
     configs
+
+// Config contains parameters for configuring the SDK
+type Config struct {
+	// OAuth2 access token
+	Token string
+	// Enable verbose logging in SDK
+	Verbose bool
+	...
+	// For testing only
+	Client *http.Client
+}
+4: Provide Visibility
+Allow verbose logging
+Allow configurable 
+    logging targets
+Limited by stdlib:(
+
+type Config struct {
+	// Enable verbose logging
+	Verbose bool
+	// Optional logging target
+	Logger *log.Logger
+}
+5: Unions
+Consider (in Stone):
+
+union DeleteError
+	path_lookup LookupError
+	path_write WriteError
+
+In JSON(note LookupError):
+{
+	".tag": "path_lookup",
+	"path_lookup": {
+		".tag": "path_lookup",
+		"malformed_path": "/some/path"		
+	}
+}
+Equivalent struct in Go
+type DeleteError struct {
+	dropbox.Tagged
+	PathLookup *LookupError `json:"path_lookup"`
+	PathWrite *WriteError `json:"path_write"`
+}
