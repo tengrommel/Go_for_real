@@ -1,0 +1,31 @@
+What on earth are you talking about?
+
+--- Package
+--- Library
+--- Program
+--- Command
+
+What is a package/library?
+
+Folder full of .go(and hopefully_test.go)files
+Can be imported into other projects
+Has exported(public) and unexported (internal) stuff
+Hopefully open-sourced
+Not package main(that's command)
+
+What is a beautiful package?
+Elegant & simple
+Obvious (maybe even boring)
+You already know how to use it
+Look forward to using it
+
+Motivation
+Do you have the right motivation for writing a package?
+Don't write packages for the sake of it
+Are you excited to write it or does it sound boring?
+If you aren't solving a problem you have, don't bother
+
+Keep packages internal to start with
+Don't automatically open-source your packages
+Live with them first internally
+But design them as if you will one day
