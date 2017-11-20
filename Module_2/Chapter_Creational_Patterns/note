@@ -1,1 +1,3 @@
 Singleton design pattern - having a unique instance of a type in the entire program
+
+Factory method - delegating the creation of different types of payments
