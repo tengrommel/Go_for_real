@@ -11,11 +11,10 @@ type MessageA struct {
 	Output io.Writer
 }
 
-func (m *MessageA) Print(){
+func (m *MessageA)Print(){
 	if m.Output == nil{
 		m.Output = os.Stdout
 	}
-
 	fmt.Fprintf(m.Output, "A: %s", m.Msg)
 }
 
